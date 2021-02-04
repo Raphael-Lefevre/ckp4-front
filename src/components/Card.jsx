@@ -6,6 +6,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Rating from '@material-ui/lab/Rating';
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import globalContext from '../context/globalContext';
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -21,7 +24,18 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function HomeCard({ key, image, label, rating }) {
+export default function HomeCard({
+  key,
+  id,
+  image,
+  label,
+  rating,
+  country,
+  description,
+}) {
+  const { setHotelId } = useContext(globalContext);
+  const hotelURL = `/hotel/${id}`;
+
   const classes = useStyles();
   return (
     <>
@@ -39,21 +53,24 @@ export default function HomeCard({ key, image, label, rating }) {
             <Rating
               name="half-rating-read"
               defaultValue={rating}
-              precision={0.5}
+              precision={0.1}
               readOnly
             />
-            <Typography>
-              This is a media card. You can use this section to describe the
-              content.
+            <Typography gutterBottom variant="subtitle6" component="h3">
+              {country}
             </Typography>
+            <Typography>{description}</Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" color="primary">
-              View
-            </Button>
-            <Button size="small" color="primary">
-              Edit
-            </Button>
+            <Link to={hotelURL}>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => setHotelId(id)}
+              >
+                Voir les avis
+              </Button>
+            </Link>
           </CardActions>
         </Card>
       </Grid>
@@ -62,8 +79,11 @@ export default function HomeCard({ key, image, label, rating }) {
 }
 
 HomeCard.propTypes = {
-  key: PropTypes.isRequired,
-  image: PropTypes.isRequired,
-  label: PropTypes.isRequired,
-  rating: PropTypes.isRequired,
+  key: PropTypes.func.isRequired,
+  image: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  rating: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  country: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
 };

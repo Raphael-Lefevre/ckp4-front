@@ -1,17 +1,21 @@
-import React from 'react';
+import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { Button } from '@material-ui/core';
+import { Avatar, Button } from '@material-ui/core';
+import globalContext from '../context/globalContext';
+
+// vert : #93d452
+// bleu : #00b2f7
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,12 +27,15 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  toolBar: {
+    backgroundColor: '#00b2f7',
+  },
 }));
 
 export default function TopBar() {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { auth, setAuth } = useContext(globalContext);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleChange = (event) => {
@@ -58,17 +65,19 @@ export default function TopBar() {
         />
       </FormGroup>
       <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
+        <Toolbar className={classes.toolBar}>
+          <Link to="/">
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
+          </Link>
           <Typography variant="h6" className={classes.title}>
-            Photos
+            Home
           </Typography>
           <Button color="inherit">Login</Button>
           {auth && (
@@ -80,7 +89,10 @@ export default function TopBar() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://i.imgur.com/N9Mxfbi.jpg"
+                />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -97,8 +109,9 @@ export default function TopBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>Mon Profil</MenuItem>
+                <MenuItem onClick={handleClose}>Mon compte</MenuItem>
+                <MenuItem onClick={handleClose}>Déconnexion</MenuItem>
               </Menu>
             </div>
           )}
