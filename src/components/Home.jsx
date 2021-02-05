@@ -87,9 +87,8 @@ export default function Home() {
               color="textSecondary"
               paragraph
             >
-              Something short and leading about the collection below—its
-              contents, the creator, etc. Make it short and sweet, but not too
-              short so folks don&apos;t simply skip over it entirely.
+              Explorez les plus beaux hôtels du monde, à la recherche de votre
+              prochaine destination.
             </Typography>
           </Container>
         </div>

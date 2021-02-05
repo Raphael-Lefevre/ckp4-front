@@ -80,11 +80,6 @@ export default function Hotel() {
         setError(null);
         const { data } = await axios.get(
           `http://localhost:5000/api/v1/hotels/${hotelId}`
-          // {
-          //   headers: {
-          //     authorization: `Bearer ${token}`,
-          //   },
-          // }
         );
         setHotel(data);
       } catch (err) {
@@ -97,6 +92,7 @@ export default function Hotel() {
   }, []);
 
   const classes = useStyles();
+  console.log(hotel);
 
   return (
     <>
@@ -131,7 +127,9 @@ export default function Hotel() {
                 <Typography>{hotel.description}</Typography>
               </Grid>
             </Container>
-            <Comment comment={hotel.review[0].comment} />
+            {hotel.review.map((item) => {
+              return <Comment comment={item.comment} rating={item.review} />;
+            })}
           </main>
         </>
       )}
