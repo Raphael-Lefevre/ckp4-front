@@ -9,6 +9,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import { Avatar } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -22,15 +24,40 @@ const useStyles = makeStyles((theme) => ({
   cardMedia: {},
 }));
 
-export default function Comment({ comment, rating }) {
+export default function Comment({ comment, rating, authorId }) {
   const classes = useStyles();
+
+  const [author, setAuthor] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      try {
+        setError(null);
+        const { data } = await axios.get(
+          `http://localhost:5000/api/v1/users/${authorId}`
+          // {
+          //   headers: {
+          //     authorization: `Bearer ${token}`,
+          //   },
+          // }
+        );
+        setAuthor(data);
+      } catch (err) {
+        setError({ ...err });
+      }
+    };
+
+    fetchAuthor();
+  }, []);
 
   return (
     <Grid item xs={10} md={10}>
       <CardActionArea component="a" href="#">
         <Card className={classes.card}>
           <div className={classes.cardDetails}>
-            <Avatar />
+            <Avatar src={author.avatar} />
             <Rating
               name="half-rating-read"
               defaultValue={rating}
@@ -52,4 +79,5 @@ export default function Comment({ comment, rating }) {
 Comment.propTypes = {
   comment: PropTypes.object,
   rating: PropTypes.number,
+  authorId: PropTypes.number,
 };
