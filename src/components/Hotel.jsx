@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 // import logo from '../images/Logo_Adviz_it.png';
-import { CardMedia } from '@material-ui/core';
+import { Card, CardMedia } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import TopBar from './TopBar';
 
@@ -26,11 +26,14 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(8),
   },
   card: {
-    height: '100%',
+    height: '100px',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
   },
   cardMedia: {
+    height: '100%',
+    width: '100%',
     paddingTop: '56.25%', // 16:9
   },
   cardContent: {
@@ -39,33 +42,6 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
-  },
-  mainFeaturedPost: {
-    position: 'relative',
-    backgroundColor: theme.palette.grey[800],
-    color: theme.palette.common.white,
-    marginBottom: theme.spacing(4),
-    backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    backgroundColor: 'rgba(0,0,0,.3)',
-  },
-  mainFeaturedPostContent: {
-    position: 'relative',
-    heigth: '20%',
-    padding: theme.spacing(3),
-    [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(6),
-      paddingRight: 0,
-    },
   },
 }));
 
@@ -92,7 +68,6 @@ export default function Hotel() {
   }, []);
 
   const classes = useStyles();
-  console.log(hotel);
 
   return (
     <>
@@ -100,14 +75,15 @@ export default function Hotel() {
       <TopBar />
       {hotel && (
         <>
-          <div
-            className={classes.mainFeaturedPost}
-            style={{ backgroundImage: `url(${hotel.picture[0].media})` }}
-          />
           <main>
             <Container className={classes.cardGrid} maxWidth="md">
               <Grid container justify="center" spacing={4}>
-                <CardMedia label={hotel.label} image={hotel.picture[0].media} />
+                <Card className={classes.card}>
+                  <CardMedia
+                    label={hotel.label}
+                    image={hotel.picture[0].media}
+                  />
+                </Card>
               </Grid>
             </Container>
             <Container className={classes.cardGrid} maxWidth="md">
