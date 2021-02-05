@@ -68,6 +68,7 @@ export default function Hotel() {
   }, []);
 
   const classes = useStyles();
+  console.log(hotel);
 
   return (
     <>
@@ -79,10 +80,7 @@ export default function Hotel() {
             <Container className={classes.cardGrid} maxWidth="md">
               <Grid container justify="center" spacing={4}>
                 <Card className={classes.card}>
-                  <CardMedia
-                    label={hotel.label}
-                    image={hotel.picture[0].media}
-                  />
+                  <CardMedia label={hotel.label} src={hotel.picture[0].media} />
                 </Card>
               </Grid>
             </Container>
@@ -104,7 +102,13 @@ export default function Hotel() {
               </Grid>
             </Container>
             {hotel.review.map((item) => {
-              return <Comment comment={item.comment} rating={item.review} />;
+              return (
+                <Comment
+                  comment={item.comment}
+                  rating={item.review}
+                  authorId={item.authorId}
+                />
+              );
             })}
           </main>
         </>
